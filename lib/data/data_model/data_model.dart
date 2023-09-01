@@ -1,42 +1,41 @@
 class ShoppingListModel {
-  int id;
-  String title;
-  double price;
-  String description;
-  Category category;
-  String image;
-  Rating rating;
+  final int id;
+  final String title;
+  final String description;
+  final double price;
+  final String category;
+  final String image;
+  final int itemQuantity;
 
-  ShoppingListModel({
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.category,
-    required this.image,
-    required this.rating,
-  });
+  ShoppingListModel(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.price,
+      required this.category,
+      required this.image,
+      this.itemQuantity = 0});
 
   factory ShoppingListModel.getData(Map<dynamic, dynamic> json) {
     return ShoppingListModel(
-        id: json["id"],
-        title: json["title"],
-        price: json["price"],
-        description: json["description"],
-        category: json["category"],
-        image: json["image"],
-        rating: json["rating"]);
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      price: json['price'].toDouble(),
+      category: json['category'],
+      image: json['image'],
+    );
   }
-}
 
-enum Category { ELECTRONICS, JEWELERY, MEN_S_CLOTHING, WOMEN_S_CLOTHING }
-
-class Rating {
-  double rate;
-  int count;
-
-  Rating({
-    required this.rate,
-    required this.count,
-  });
+  Map<dynamic, dynamic> setData() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'price': price,
+      'category': category,
+      'image': image,
+      'itemQuantity': itemQuantity
+    };
+  }
 }

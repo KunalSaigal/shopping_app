@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:practice_shopping_app/data/data_model/data_model.dart';
 
-class DioRepo {
+class DataRepo {
   List<ShoppingListModel> shopItems = [];
 
   Future<List<ShoppingListModel>> getDatafromDio() async {
