@@ -8,7 +8,6 @@ class LocalStorage {
 
   late SharedPreferences _preferences;
   late List<ShoppingListModel> cartItemInstance;
-  // late final List<ShoppingListModel>? last_cart;
 
   void saveCart(List<ShoppingListModel> current) async {
     _preferences = await SharedPreferences.getInstance();
@@ -26,6 +25,7 @@ class LocalStorage {
     final lastCart = <ShoppingListModel>[];
     for (final key in keys) {
       final value = _preferences.getString(key);
+
       if (value != null) {
         final parts = value.split(',');
         if (parts.length == 2) {
@@ -36,14 +36,17 @@ class LocalStorage {
           final category = parts[4];
           final image = parts[5];
           final itemQuantity = int.parse(parts[6]);
-          lastCart.add(ShoppingListModel(
+          lastCart.add(
+            ShoppingListModel(
               id: id,
               title: title,
               description: description,
               price: price,
               category: category,
               image: image,
-              itemQuantity: itemQuantity));
+              itemQuantity: itemQuantity,
+            ),
+          );
         }
       }
     }

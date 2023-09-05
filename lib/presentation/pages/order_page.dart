@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:practice_shopping_app/data/data_model/data_model.dart';
+import 'package:practice_shopping_app/data/item_lists.dart';
+import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import '../widgets/cart_tile.dart';
 
 class OrderPage extends StatelessWidget {
-  final List<List<ShoppingListModel>> order_list;
+  final List<List<ShoppingItemEntity>> order_list;
   const OrderPage({super.key, required this.order_list});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Center(
-        child: Text(
-          "Your Cart",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor),
+        title: Center(
+          child: Text(
+            "Your Cart",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor),
+          ),
         ),
-      )),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(6),
@@ -27,7 +29,7 @@ class OrderPage extends StatelessWidget {
               return Column(children: [
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: order_list.length,
+                  itemCount: previous_orders[outerIndex].length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(2.0),

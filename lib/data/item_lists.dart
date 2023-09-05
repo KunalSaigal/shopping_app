@@ -1,8 +1,5 @@
-import 'data_model/data_model.dart';
-
-List<ShoppingListModel> cartItems = [];
+import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 
 double ordertotal = 0;
-Map<int, dynamic> itemQuantityList = {};
-
-List<List<ShoppingListModel>> previous_orders = [];
+// List<ShoppingItemEntity> cartItem = [];
+List<List<ShoppingItemEntity>> previous_orders = [];

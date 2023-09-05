@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:practice_shopping_app/data/data_model/data_model.dart';
+import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 
 class DataRepo {
-  List<ShoppingListModel> shopItems = [];
+  List<ShoppingItemEntity> shopItems = [];
 
-  Future<List<ShoppingListModel>> getDatafromDio() async {
+  Future<List<ShoppingItemEntity>> getDatafromDio() async {
     Dio dio = Dio();
     dio.interceptors.add(
       InterceptorsWrapper(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_shopping_app/domain/bloc/shopping_bloc.dart';
+import 'package:practice_shopping_app/presentation/pages/cart_page.dart';
 import 'package:practice_shopping_app/presentation/widgets/shopping_list.dart';
+
+import '../bloc/shopping_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,8 +16,9 @@ class HomePage extends StatelessWidget {
           child: Text(
             "Market",
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
         backgroundColor: Colors.white,
@@ -26,11 +29,23 @@ class HomePage extends StatelessWidget {
               // Handle search button press
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              // Handle settings button press
-              Navigator.pushNamed(context, '/cart');
+          BlocBuilder<ShoppingBloc, ShoppingState>(
+            builder: (context, state) {
+              return IconButton(
+                icon: const Icon(Icons.shopping_cart_outlined),
+                onPressed: () {
+                  // Handle settings button press
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (_) {
+                      if (state is ListFetchingSuccessfullState) {
+                        return CartPage(cartItemInstance: state.cartItems);
+                      } else {
+                        return const CartPage(cartItemInstance: []);
+                      }
+                    },
+                  ));
+                },
+              );
             },
           ),
         ],
@@ -45,18 +60,16 @@ class HomePage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
                 child: const Text("My Orders")),
           ],
         ),
       ),
-      body: BlocProvider(
-        create: (context) => ShoppingBloc(),
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: ShoppingListItems(),
-        ),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: ShoppingListItems(),
       ),
     );
   }
