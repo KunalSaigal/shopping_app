@@ -33,8 +33,7 @@ class DecreaseQuantityEvent extends ShoppingEvent {
 
 class PlaceOrderEvent extends ShoppingEvent {
   final List<ShoppingItemEntity> currentCart;
+  final List<List<ShoppingItemEntity>> orderList;
 
-  PlaceOrderEvent({
-    required this.currentCart,
-  });
+  PlaceOrderEvent({required this.currentCart, required this.orderList});
 }

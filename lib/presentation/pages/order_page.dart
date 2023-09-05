@@ -13,7 +13,7 @@ class OrderPage extends StatelessWidget {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Your Cart",
+            "Your Orders",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor),

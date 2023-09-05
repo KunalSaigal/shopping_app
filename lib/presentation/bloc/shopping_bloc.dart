@@ -12,7 +12,7 @@ part 'shopping_state.dart';
 class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
   ShoppingBloc() : super(InitialState()) {
     on<ShoppingListFetchEvent>(listfetching);
-    // on<PlaceOrderEvent>(placeOrder);
+    on<PlaceOrderEvent>(placeOrder);
     on<AddtoCartEvent>(addToCart);
     on<IncreaseQuantityEvent>(increaseQuantity);
 
@@ -23,15 +23,18 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
       ShoppingListFetchEvent event, Emitter<ShoppingState> emit) async {
     List<ShoppingItemEntity> shoppinglist = await DataRepo().getDatafromDio();
     emit(ListFetchingSuccessfullState(
-        shoppinglist: shoppinglist, cartItems: []));
+        shoppinglist: shoppinglist, cartItems: const [], orderLists: const []));
   }
 
-  // FutureOr<void> placeOrder(
-  //     PlaceOrderEvent event, Emitter<ShoppingState> emit) async {
-  //   previous_orders.add(event.currentCart);
-  //   event.currentCart.clear();
-  //   emit(OrderPlaced());
-  // }
+  FutureOr<void> placeOrder(
+      PlaceOrderEvent event, Emitter<ShoppingState> emit) async {
+    List<List<ShoppingItemEntity>> orderLists = [...event.orderList];
+    orderLists.add(event.currentCart);
+    event.currentCart.clear();
+    print(orderLists);
+    emit((state as ListFetchingSuccessfullState)
+        .copyWith(orderList: orderLists, cartItem: event.currentCart));
+  }
 
   FutureOr<void> addToCart(AddtoCartEvent event, Emitter<ShoppingState> emit) {
     ShoppingItemEntity updatedItem = event.currentItem;

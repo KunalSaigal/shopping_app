@@ -38,9 +38,15 @@ class HomePage extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (_) {
                       if (state is ListFetchingSuccessfullState) {
-                        return CartPage(cartItemInstance: state.cartItems);
+                        return CartPage(
+                          cartItemInstance: state.cartItems,
+                          currentOrderList: state.orderLists,
+                        );
                       } else {
-                        return const CartPage(cartItemInstance: []);
+                        return const CartPage(
+                          cartItemInstance: [],
+                          currentOrderList: [],
+                        );
                       }
                     },
                   ));
