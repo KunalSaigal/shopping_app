@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice_shopping_app/data/item_lists.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
-import '../widgets/cart_tile.dart';
+import 'package:practice_shopping_app/presentation/widgets/order_tile.dart';
 
 class OrderPage extends StatelessWidget {
   final List<List<ShoppingItemEntity>> order_list;
@@ -20,27 +19,18 @@ class OrderPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: ListView.builder(
-            itemCount: order_list.length,
-            itemBuilder: (context, outerIndex) {
-              return Column(children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: previous_orders[outerIndex].length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: CartTile(cartitem: order_list[outerIndex][index]),
-                    );
-                  },
-                ),
-              ]);
-            },
-          ),
-        ),
+      body: ListView.builder(
+        // physics: const NeverScrollableScrollPhysics(),
+        itemCount: order_list.length,
+        itemBuilder: (context, index) {
+          // Access the inner list
+          List<ShoppingItemEntity> innerList = order_list[index];
+
+          return OrderTile(
+            cartInstance: innerList,
+            upperIndex: index,
+          );
+        },
       ),
     );
   }
