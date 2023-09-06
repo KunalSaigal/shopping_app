@@ -8,9 +8,7 @@ class ShoppingListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShoppingBloc, ShoppingState>(
-        // buildWhen: (previous, current) => current is! ListFetchingState,
-        builder: (context, state) {
+    return BlocBuilder<ShoppingBloc, ShoppingState>(builder: (context, state) {
       if (state is InitialState) {
         BlocProvider.of<ShoppingBloc>(context).add(ShoppingListFetchEvent());
       }
@@ -19,10 +17,13 @@ class ShoppingListItems extends StatelessWidget {
         return ListView.builder(
           itemCount: successState.shoppinglist.length,
           itemBuilder: (context, index) {
-            return ProductTile(
-              shoppingListModel: successState.shoppinglist[index],
-              cartList: state.cartItems,
-              shoppingList: state.shoppinglist,
+            return Padding(
+              padding: const EdgeInsets.all(3),
+              child: ProductTile(
+                shoppingListModel: successState.shoppinglist[index],
+                cartList: state.cartItems,
+                shoppingList: state.shoppinglist,
+              ),
             );
           },
         );

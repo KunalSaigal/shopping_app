@@ -22,18 +22,25 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
   FutureOr<void> listfetching(
       ShoppingListFetchEvent event, Emitter<ShoppingState> emit) async {
     List<ShoppingItemEntity> shoppinglist = await DataRepo().getDatafromDio();
-    emit(ListFetchingSuccessfullState(
-        shoppinglist: shoppinglist, cartItems: const [], orderLists: const []));
+    emit(
+      ListFetchingSuccessfullState(
+          shoppinglist: shoppinglist,
+          cartItems: const [],
+          orderLists: const []),
+    );
   }
 
   FutureOr<void> placeOrder(
       PlaceOrderEvent event, Emitter<ShoppingState> emit) async {
     List<List<ShoppingItemEntity>> orderLists = [...event.orderList];
-    orderLists.add(event.currentCart);
-    event.currentCart.clear();
-    print(orderLists);
-    emit((state as ListFetchingSuccessfullState)
-        .copyWith(orderList: orderLists, cartItem: event.currentCart));
+    List<ShoppingItemEntity> currCart = [...event.currentCart];
+    // print(currCart.toString());
+    orderLists.insert(0, currCart);
+    print(orderLists.toString());
+    emit(
+      (state as ListFetchingSuccessfullState)
+          .copyWith(orderList: orderLists, cartItem: []),
+    );
   }
 
   FutureOr<void> addToCart(AddtoCartEvent event, Emitter<ShoppingState> emit) {
@@ -85,8 +92,10 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
                             (element) => event.currentItem.id == element.id)]
                         .itemQuantity +
                     1);
-    emit((state as ListFetchingSuccessfullState)
-        .copyWith(shoppinglist: shoppingListCopy));
+    emit(
+      (state as ListFetchingSuccessfullState)
+          .copyWith(shoppinglist: shoppingListCopy),
+    );
   }
 
   FutureOr<void> decreaseQuantity(
@@ -101,7 +110,9 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
                             (element) => event.currentItem.id == element.id)]
                         .itemQuantity -
                     1);
-    emit((state as ListFetchingSuccessfullState)
-        .copyWith(shoppinglist: shoppingListCopy));
+    emit(
+      (state as ListFetchingSuccessfullState)
+          .copyWith(shoppinglist: shoppingListCopy),
+    );
   }
 }

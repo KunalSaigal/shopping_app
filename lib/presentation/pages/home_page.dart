@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/presentation/pages/cart_page.dart';
+import 'package:practice_shopping_app/presentation/pages/order_page.dart';
 import 'package:practice_shopping_app/presentation/widgets/shopping_list.dart';
 
 import '../bloc/shopping_bloc.dart';
@@ -25,9 +26,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              // Handle search button press
-            },
+            onPressed: () {},
           ),
           BlocBuilder<ShoppingBloc, ShoppingState>(
             builder: (context, state) {
@@ -35,47 +34,64 @@ class HomePage extends StatelessWidget {
                 icon: const Icon(Icons.shopping_cart_outlined),
                 onPressed: () {
                   // Handle settings button press
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (_) {
-                      if (state is ListFetchingSuccessfullState) {
-                        return CartPage(
-                          cartItemInstance: state.cartItems,
-                          currentOrderList: state.orderLists,
-                        );
-                      } else {
-                        return const CartPage(
-                          cartItemInstance: [],
-                          currentOrderList: [],
-                        );
-                      }
-                    },
-                  ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) {
+                        if (state is ListFetchingSuccessfullState) {
+                          return CartPage(
+                            cartItemList: state.cartItems,
+                            currentOrderList: state.orderLists,
+                          );
+                        } else {
+                          return const CartPage(
+                            cartItemList: [],
+                            currentOrderList: [],
+                          );
+                        }
+                      },
+                    ),
+                  );
                 },
               );
             },
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/orders');
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Text("My Orders")),
-          ],
-        ),
+      drawer: BlocBuilder<ShoppingBloc, ShoppingState>(
+        builder: (context, state) {
+          return Drawer(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (_) {
+                          if (state is ListFetchingSuccessfullState) {
+                            return OrderPage(
+                              order_list: state.orderLists,
+                            );
+                          } else {
+                            return const OrderPage(order_list: []);
+                          }
+                        },
+                      ));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text("My Orders")),
+              ],
+            ),
+          );
+        },
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: ShoppingListItems(),
+      body: Container(
+        padding: const EdgeInsets.all(8.0),
+        child: const ShoppingListItems(),
       ),
     );
   }
