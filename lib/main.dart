@@ -17,8 +17,11 @@ class MyApp extends StatelessWidget {
       create: (context) => ShoppingBloc(),
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: const Color.fromARGB(255, 228, 227, 227),
+          appBarTheme:
+              const AppBarTheme(color: Color.fromARGB(255, 255, 254, 254)),
           primaryColor: const Color.fromARGB(255, 35, 235, 145),
           useMaterial3: true,
           iconButtonTheme: const IconButtonThemeData(
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: {
-          '/': (context) => HomePage(),
+          '/': (context) => const HomePage(),
           // '/cart': (context) => CartPage(cartItemInstance: ),
           // '/orders': (context) => OrderPage(order_list: previous_orders),
         },

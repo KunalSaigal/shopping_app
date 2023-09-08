@@ -15,7 +15,7 @@ class OrderTile extends StatelessWidget {
         margin: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text('List ${upperIndex + 1}'),
+            Text('Order ${upperIndex + 1}'),
             ListView.builder(
               shrinkWrap: true,
               itemCount: cartInstance.length,

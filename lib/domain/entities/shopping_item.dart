@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:practice_shopping_app/data/data_model/data_model.dart';
 
 class ShoppingItemEntity extends Equatable {
   final int id;
@@ -16,7 +17,7 @@ class ShoppingItemEntity extends Equatable {
     required this.price,
     required this.category,
     required this.image,
-    this.itemQuantity = 1,
+    required this.itemQuantity,
   });
 
   ShoppingItemEntity copyWith({
@@ -39,8 +40,19 @@ class ShoppingItemEntity extends Equatable {
     );
   }
 
+  ShoppingListModel toModel() {
+    return ShoppingListModel(
+      id: id,
+      title: title,
+      category: category,
+      description: description,
+      image: image,
+      itemQuantity: itemQuantity,
+      price: price,
+    );
+  }
+
   @override
-  // TODO: implement props
   List<Object?> get props {
     return [id, title, description, price, category, image, itemQuantity];
   }

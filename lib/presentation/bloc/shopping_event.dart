@@ -37,3 +37,5 @@ class PlaceOrderEvent extends ShoppingEvent {
 
   PlaceOrderEvent({required this.currentCart, required this.orderList});
 }
+
+class OrderListFetchEvent extends ShoppingEvent {}

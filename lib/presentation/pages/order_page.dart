@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/presentation/widgets/order_tile.dart';
 
+import '../bloc/shopping_bloc.dart';
+
 class OrderPage extends StatelessWidget {
-  final List<List<ShoppingItemEntity>> order_list;
-  const OrderPage({super.key, required this.order_list});
+  const OrderPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // context.read<ShoppingBloc>().add(OrderListFetchEvent());
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -19,17 +24,24 @@ class OrderPage extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        // physics: const NeverScrollableScrollPhysics(),
-        itemCount: order_list.length,
-        itemBuilder: (context, index) {
-          // Access the inner list
-          List<ShoppingItemEntity> innerList = order_list[index];
+      body: BlocBuilder<ShoppingBloc, ShoppingState>(
+        builder: (context, state) {
+          if (state is ListFetchingSuccessfullState) {
+            return ListView.builder(
+              itemCount: state.orderLists.length,
+              itemBuilder: (context, index) {
+                // Access the inner list
+                List<ShoppingItemEntity> innerList = state.orderLists[index];
 
-          return OrderTile(
-            cartInstance: innerList,
-            upperIndex: index,
-          );
+                return OrderTile(
+                  cartInstance: innerList,
+                  upperIndex: index,
+                );
+              },
+            );
+          } else {
+            return const Text("No Order");
+          }
         },
       ),
     );

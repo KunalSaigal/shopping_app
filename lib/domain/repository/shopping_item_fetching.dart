@@ -26,7 +26,6 @@ class DataRepo {
         return [];
       }
     } catch (e) {
-      print(e.toString());
       return [];
     }
   }

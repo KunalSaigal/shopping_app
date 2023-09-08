@@ -5,7 +5,6 @@ sealed class ShoppingState extends Equatable {}
 
 class InitialState extends ShoppingState {
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }
 
@@ -22,23 +21,21 @@ class ListFetchingSuccessfullState extends ShoppingState {
 
   ListFetchingSuccessfullState copyWith({
     List<ShoppingItemEntity>? shoppinglist,
-    List<ShoppingItemEntity>? cartItem,
-    List<List<ShoppingItemEntity>>? orderList,
+    List<ShoppingItemEntity>? cartItems,
+    List<List<ShoppingItemEntity>>? orderLists,
   }) {
     return ListFetchingSuccessfullState(
       shoppinglist: shoppinglist ?? this.shoppinglist,
-      cartItems: cartItem ?? cartItems,
-      orderLists: orderList ?? orderLists,
+      cartItems: cartItems ?? this.cartItems,
+      orderLists: orderLists ?? this.orderLists,
     );
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [shoppinglist, cartItems];
+  List<Object?> get props => [shoppinglist, cartItems, orderLists];
 }
 
 class CartState extends ShoppingState {
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }

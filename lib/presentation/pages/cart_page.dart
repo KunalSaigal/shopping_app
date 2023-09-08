@@ -28,15 +28,23 @@ class CartPage extends StatelessWidget {
           padding: const EdgeInsets.all(6),
           child: BlocBuilder<ShoppingBloc, ShoppingState>(
             builder: (context, state) {
-              return ListView.builder(
-                itemCount: cartItemList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: CartTile(cartitem: cartItemList[index]),
+              if (state is ListFetchingSuccessfullState) {
+                if (state.cartItems.isNotEmpty) {
+                  return ListView.builder(
+                    itemCount: state.cartItems.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: CartTile(cartitem: cartItemList[index]),
+                      );
+                    },
                   );
-                },
-              );
+                } else {
+                  return const Text("No Cart Available Yet");
+                }
+              } else {
+                return const Text("No Cart Available");
+              }
             },
           ),
         ),

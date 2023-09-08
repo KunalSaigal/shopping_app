@@ -1,10 +1,11 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/domain/repository/shopping_item_fetching.dart';
+
+import '../../domain/repository/local_storage.dart';
 
 part 'shopping_event.dart';
 part 'shopping_state.dart';
@@ -15,8 +16,8 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     on<PlaceOrderEvent>(placeOrder);
     on<AddtoCartEvent>(addToCart);
     on<IncreaseQuantityEvent>(increaseQuantity);
-
     on<DecreaseQuantityEvent>(decreaseQuantity);
+    on<OrderListFetchEvent>(orderListFetching);
   }
 
   FutureOr<void> listfetching(
@@ -24,9 +25,10 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     List<ShoppingItemEntity> shoppinglist = await DataRepo().getDatafromDio();
     emit(
       ListFetchingSuccessfullState(
-          shoppinglist: shoppinglist,
-          cartItems: const [],
-          orderLists: const []),
+        shoppinglist: shoppinglist,
+        cartItems: const [],
+        orderLists: const [],
+      ),
     );
   }
 
@@ -34,12 +36,15 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
       PlaceOrderEvent event, Emitter<ShoppingState> emit) async {
     List<List<ShoppingItemEntity>> orderLists = [...event.orderList];
     List<ShoppingItemEntity> currCart = [...event.currentCart];
-    // print(currCart.toString());
+
     orderLists.insert(0, currCart);
-    print(orderLists.toString());
+    await LocalStorage().saveOrders(currCart);
+
     emit(
-      (state as ListFetchingSuccessfullState)
-          .copyWith(orderList: orderLists, cartItem: []),
+      (state as ListFetchingSuccessfullState).copyWith(
+        orderLists: orderLists,
+        cartItems: [],
+      ),
     );
   }
 
@@ -50,21 +55,17 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     if (copy.isEmpty) {
       copy.add(event.currentItem);
     } else {
-      print(containsProduct(copy, updatedItem));
-      // print(copy.indexWhere((element) => element.id == updatedItem.id));
       if (containsProduct(copy, updatedItem)) {
         copy[copy.indexWhere((element) => element.id == updatedItem.id)] =
             copy[copy.indexWhere((element) => element.id == updatedItem.id)]
                 .copyWith(itemQuantity: updatedItem.itemQuantity);
-        print(copy[copy.indexWhere((element) => element.id == updatedItem.id)]
-            .itemQuantity);
       } else {
         copy.add(updatedItem);
       }
     }
     emit(
       (state as ListFetchingSuccessfullState).copyWith(
-        cartItem: copy,
+        cartItems: copy,
       ),
     );
   }
@@ -101,18 +102,31 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
   FutureOr<void> decreaseQuantity(
       DecreaseQuantityEvent event, Emitter<ShoppingState> emit) {
     List<ShoppingItemEntity> shoppingListCopy = [...event.shoppingList];
-    shoppingListCopy[shoppingListCopy
-            .indexWhere((element) => event.currentItem.id == element.id)] =
-        shoppingListCopy[shoppingListCopy
-                .indexWhere((element) => event.currentItem.id == element.id)]
-            .copyWith(
-                itemQuantity: shoppingListCopy[shoppingListCopy.indexWhere(
-                            (element) => event.currentItem.id == element.id)]
-                        .itemQuantity -
-                    1);
+    shoppingListCopy[shoppingListCopy.indexWhere(
+      (element) => event.currentItem.id == element.id,
+    )] = shoppingListCopy[shoppingListCopy
+            .indexWhere((element) => event.currentItem.id == element.id)]
+        .copyWith(
+            itemQuantity: shoppingListCopy[shoppingListCopy.indexWhere(
+                        (element) => event.currentItem.id == element.id)]
+                    .itemQuantity -
+                1);
     emit(
       (state as ListFetchingSuccessfullState)
           .copyWith(shoppinglist: shoppingListCopy),
+    );
+  }
+
+  FutureOr<void> orderListFetching(
+    OrderListFetchEvent event,
+    Emitter<ShoppingState> emit,
+  ) async {
+    List<List<ShoppingItemEntity>> orderListNew =
+        await LocalStorage().loadOrder();
+    emit(
+      (state as ListFetchingSuccessfullState).copyWith(
+        orderLists: orderListNew,
+      ),
     );
   }
 }

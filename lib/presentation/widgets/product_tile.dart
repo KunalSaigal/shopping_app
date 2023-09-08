@@ -20,20 +20,6 @@ class ProductTile extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.blue,
-        //     spreadRadius: 2,
-        //     blurRadius: 2,
-        //     offset: Offset(1, 2),
-        //   ),
-        //   BoxShadow(
-        //     color: Colors.black,
-        //     spreadRadius: 2,
-        //     blurRadius: 2,
-        //     offset: Offset(1, 2),
-        //   ),
-        // ],
       ),
       height: MediaQuery.of(context).size.height / 4,
       child: Row(
@@ -88,64 +74,73 @@ class ProductTile extends StatelessWidget {
                   Text(
                     '\$${shoppingListModel.price.toString()}',
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  Flexible(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Theme.of(context).primaryColor)),
-                            onPressed: () {
-                              BlocProvider.of<ShoppingBloc>(context).add(
-                                AddtoCartEvent(
-                                    currentItem: shoppingListModel,
-                                    cartList: cartList),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Item Added!'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                              // print(cartItems);
-                            },
-                            child: const Text(
-                              textAlign: TextAlign.center,
-                              "Add",
-                              style: TextStyle(color: Colors.white),
-                              maxLines: 1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Theme.of(context).primaryColor),
+                        ),
+                        onPressed: () {
+                          BlocProvider.of<ShoppingBloc>(context).add(
+                            AddtoCartEvent(
+                                currentItem: shoppingListModel,
+                                cartList: cartList),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Item Added!'),
+                              duration: Duration(seconds: 1),
                             ),
+                          );
+                          // print(cartItems);a
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Add",
+                            style: TextStyle(color: Colors.white),
+                            maxLines: 1,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            BlocProvider.of<ShoppingBloc>(context).add(
-                              DecreaseQuantityEvent(
-                                  currentItem: shoppingListModel,
-                                  shoppingList: shoppingList),
-                            );
-                          },
-                          icon: const Icon(Icons.remove_circle_outline),
+                      ),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                BlocProvider.of<ShoppingBloc>(context).add(
+                                  DecreaseQuantityEvent(
+                                      currentItem: shoppingListModel,
+                                      shoppingList: shoppingList),
+                                );
+                              },
+                              icon: const Icon(Icons.remove_circle_outline),
+                            ),
+                            Text(
+                              shoppingListModel.itemQuantity.toString(),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                BlocProvider.of<ShoppingBloc>(context).add(
+                                  IncreaseQuantityEvent(
+                                      currentItem: shoppingListModel,
+                                      shoppingList: shoppingList),
+                                );
+                              },
+                              icon: const Icon(Icons.add_circle_outline),
+                            ),
+                          ],
                         ),
-                        Text(
-                          shoppingListModel.itemQuantity.toString(),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            BlocProvider.of<ShoppingBloc>(context).add(
-                              IncreaseQuantityEvent(
-                                  currentItem: shoppingListModel,
-                                  shoppingList: shoppingList),
-                            );
-                          },
-                          icon: const Icon(Icons.add_circle_outline),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

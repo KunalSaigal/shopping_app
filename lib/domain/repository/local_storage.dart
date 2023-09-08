@@ -1,55 +1,64 @@
+import 'dart:convert';
 import 'package:practice_shopping_app/data/data_model/data_model.dart';
+import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
-  final List<ShoppingListModel> currentCart;
-  final List<List<ShoppingListModel>> orders;
-  LocalStorage(this.currentCart, {required this.orders});
-
   late SharedPreferences _preferences;
-  late List<ShoppingListModel> cartItemInstance;
+  late List<ShoppingItemEntity> cartItemInstance;
 
-  void saveCart(List<ShoppingListModel> current) async {
+  Future<void> saveOrders(List<ShoppingItemEntity> currCart) async {
     _preferences = await SharedPreferences.getInstance();
-    for (int i = 0; i < current.length; i++) {
-      final key = 'currentCart_$i';
-      final value =
-          '${current[i].id},${current[i].title},${current[i].description},${current[i].price},${current[i].category},${current[i].image},${current[i].itemQuantity}';
-      await _preferences.setString(key, value);
-    }
+    List<List<ShoppingItemEntity>> localOrderList = await loadOrder();
+    localOrderList.add(
+      currCart.map(
+        (itemInstance) {
+          return itemInstance.toModel();
+        },
+      ).toList(),
+    );
+
+    final saving = localOrderList.map(
+      (itemList) {
+        return itemList.map(
+          (item) {
+            return item.toModel().toJSON();
+          },
+        ).toList();
+      },
+    ).toList();
+    String saveOrder = jsonEncode(saving);
+
+    await _preferences.setString("savedCart", saveOrder);
   }
 
-  Future<List<ShoppingListModel>> _loadCart() async {
-    _preferences = await SharedPreferences.getInstance();
-    final keys = _preferences.getKeys();
-    final lastCart = <ShoppingListModel>[];
-    for (final key in keys) {
-      final value = _preferences.getString(key);
+  List<String> convertToStringList(List<ShoppingItemEntity> current) {
+    return (current
+        .map(
+          (item) => json.encode(
+            item.toModel().toJSON(),
+          ),
+        )
+        .toList());
+  }
 
-      if (value != null) {
-        final parts = value.split(',');
-        if (parts.length == 2) {
-          final id = int.parse(parts[0]);
-          final title = parts[1];
-          final description = parts[2];
-          final price = double.parse(parts[3]);
-          final category = parts[4];
-          final image = parts[5];
-          final itemQuantity = int.parse(parts[6]);
-          lastCart.add(
-            ShoppingListModel(
-              id: id,
-              title: title,
-              description: description,
-              price: price,
-              category: category,
-              image: image,
-              itemQuantity: itemQuantity,
-            ),
-          );
-        }
-      }
+  Future<List<List<ShoppingItemEntity>>> loadOrder() async {
+    _preferences = await SharedPreferences.getInstance();
+    final savedString = _preferences.getString("savedCart") ?? "";
+    if (savedString != "") {
+      List<dynamic> decodeSaved = jsonDecode(savedString);
+
+      return decodeSaved.map(
+        (listofEle) {
+          return (listofEle as List).map(
+            (jsonMap) {
+              return ShoppingListModel.getData(jsonMap);
+            },
+          ).toList();
+        },
+      ).toList();
+    } else {
+      return [];
     }
-    return lastCart;
   }
 }
