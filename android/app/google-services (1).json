@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1018777455857",
+    "project_id": "practice-shopping-app",
+    "storage_bucket": "practice-shopping-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018777455857:android:aaaf5dba9d4680a362ad50",
+        "android_client_info": {
+          "package_name": "com.example.practice_shopping_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBydfGID4kQmeMF5yZ_VvA1NivYyFsEwto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

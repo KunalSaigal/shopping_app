@@ -15,20 +15,33 @@ class AddtoCartEvent extends ShoppingEvent {
   });
 }
 
+class RemoveFromCartEvent extends ShoppingEvent {
+  final ShoppingItemEntity currentItem;
+  final List<ShoppingItemEntity> cartList;
+
+  RemoveFromCartEvent({required this.currentItem, required this.cartList});
+}
+
 class IncreaseQuantityEvent extends ShoppingEvent {
   final List<ShoppingItemEntity> shoppingList;
   final ShoppingItemEntity currentItem;
+  final List<ShoppingItemEntity> cartList;
 
   IncreaseQuantityEvent(
-      {required this.shoppingList, required this.currentItem});
+      {required this.shoppingList,
+      required this.currentItem,
+      required this.cartList});
 }
 
 class DecreaseQuantityEvent extends ShoppingEvent {
   final List<ShoppingItemEntity> shoppingList;
   final ShoppingItemEntity currentItem;
+  final List<ShoppingItemEntity> cartList;
 
   DecreaseQuantityEvent(
-      {required this.currentItem, required this.shoppingList});
+      {required this.currentItem,
+      required this.shoppingList,
+      required this.cartList});
 }
 
 class PlaceOrderEvent extends ShoppingEvent {

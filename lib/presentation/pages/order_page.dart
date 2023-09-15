@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/presentation/widgets/order_tile.dart';
 
+import '../../core/constants/string_constants.dart';
 import '../bloc/shopping_bloc.dart';
 
+@RoutePage()
 class OrderPage extends StatelessWidget {
   const OrderPage({
     super.key,
@@ -12,12 +15,12 @@ class OrderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // context.read<ShoppingBloc>().add(OrderListFetchEvent());
+    BlocProvider.of<ShoppingBloc>(context).add(OrderListFetchEvent());
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Your Orders",
+            StringConstants.orderpageHeader,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor),
@@ -33,14 +36,18 @@ class OrderPage extends StatelessWidget {
                 // Access the inner list
                 List<ShoppingItemEntity> innerList = state.orderLists[index];
 
-                return OrderTile(
-                  cartInstance: innerList,
-                  upperIndex: index,
+                return Column(
+                  children: [
+                    OrderTile(
+                      cartInstance: innerList,
+                      upperIndex: index,
+                    ),
+                  ],
                 );
               },
             );
           } else {
-            return const Text("No Order");
+            return const Text(StringConstants.emptyOrderText);
           }
         },
       ),

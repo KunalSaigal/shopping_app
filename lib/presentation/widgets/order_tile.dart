@@ -23,7 +23,10 @@ class OrderTile extends StatelessWidget {
               itemBuilder: (context, index) {
                 // Access and display individual objects
                 ShoppingItemEntity object = cartInstance[index];
-                return CartTile(cartitem: object);
+                return CartTile(
+                  cartitem: object,
+                  cartList: cartInstance,
+                );
               },
             ),
           ],

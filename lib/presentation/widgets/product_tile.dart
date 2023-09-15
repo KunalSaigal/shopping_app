@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:practice_shopping_app/core/constants/color_contants.dart';
+import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
 
@@ -16,12 +18,14 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
       ),
-      height: MediaQuery.of(context).size.height / 4,
+      height: MediaQuery.of(context).orientation == Orientation.landscape
+          ? MediaQuery.of(context).size.height / 2
+          : MediaQuery.of(context).size.height / 4,
       child: Row(
         children: [
           Container(
@@ -34,84 +38,88 @@ class ProductTile extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 10, bottom: 7, left: 5),
+              padding: const EdgeInsets.only(right: 5, left: 3),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Flexible(
+                      Expanded(
                         child: Text(
                           shoppingListModel.title,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize:
+                                  MediaQuery.of(context).devicePixelRatio * 10,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor),
+                              color: ColorConstants.primaryColor),
                         ),
                       ),
                       IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.favorite_border_outlined),
-                        color: Theme.of(context).primaryColor,
-                        iconSize: 25,
+                        color: ColorConstants.primaryColor,
+                        iconSize: MediaQuery.of(context).devicePixelRatio * 10,
                       )
                     ],
                   ),
-                  Flexible(
-                    child: Text(
-                      shoppingListModel.description,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      maxLines: 2,
-                      style: const TextStyle(fontSize: 15),
+                  Text(
+                    shoppingListModel.description,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).devicePixelRatio * 7,
                     ),
                   ),
                   Text(
                     '\$${shoppingListModel.price.toString()}',
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).devicePixelRatio * 6,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
-                              Theme.of(context).primaryColor),
-                        ),
-                        onPressed: () {
-                          BlocProvider.of<ShoppingBloc>(context).add(
-                            AddtoCartEvent(
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                ColorConstants.primaryColor),
+                          ),
+                          onPressed: () {
+                            BlocProvider.of<ShoppingBloc>(context).add(
+                              AddtoCartEvent(
                                 currentItem: shoppingListModel,
-                                cartList: cartList),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Item Added!'),
-                              duration: Duration(seconds: 1),
+                                cartList: cartList,
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  StringConstants.itemAddedConformationText,
+                                ),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                            // print(cartItems);a
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              StringConstants.addButtonText,
+                              style: TextStyle(color: Colors.white),
+                              maxLines: 1,
                             ),
-                          );
-                          // print(cartItems);a
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            "Add",
-                            style: TextStyle(color: Colors.white),
-                            maxLines: 1,
                           ),
                         ),
-                      ),
-                      Flexible(
-                        child: Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             IconButton(
@@ -119,7 +127,8 @@ class ProductTile extends StatelessWidget {
                                 BlocProvider.of<ShoppingBloc>(context).add(
                                   DecreaseQuantityEvent(
                                       currentItem: shoppingListModel,
-                                      shoppingList: shoppingList),
+                                      shoppingList: shoppingList,
+                                      cartList: cartList),
                                 );
                               },
                               icon: const Icon(Icons.remove_circle_outline),
@@ -132,15 +141,16 @@ class ProductTile extends StatelessWidget {
                                 BlocProvider.of<ShoppingBloc>(context).add(
                                   IncreaseQuantityEvent(
                                       currentItem: shoppingListModel,
-                                      shoppingList: shoppingList),
+                                      shoppingList: shoppingList,
+                                      cartList: cartList),
                                 );
                               },
                               icon: const Icon(Icons.add_circle_outline),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

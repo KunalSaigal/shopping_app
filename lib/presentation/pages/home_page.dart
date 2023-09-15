@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:practice_shopping_app/presentation/pages/cart_page.dart';
-import 'package:practice_shopping_app/presentation/pages/order_page.dart';
+import 'package:practice_shopping_app/core/constants/string_constants.dart';
+import 'package:practice_shopping_app/core/routes/routes.dart';
 import 'package:practice_shopping_app/presentation/widgets/shopping_list.dart';
 import '../bloc/shopping_bloc.dart';
 
+@RoutePage()
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -14,7 +16,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Market",
+            StringConstants.homePageHeaderText,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -29,60 +31,36 @@ class HomePage extends StatelessWidget {
           ),
           BlocBuilder<ShoppingBloc, ShoppingState>(
             builder: (context, state) {
-              return IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () {
-                  // Handle settings button press
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) {
-                        if (state is ListFetchingSuccessfullState) {
-                          return CartPage(
+              return Row(
+                children: [
+                  (state is ListFetchingSuccessfullState)
+                      ? Text("${state.cartItems.length}")
+                      : const Text(StringConstants.empty),
+                  IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    onPressed: () {
+                      if (state is ListFetchingSuccessfullState) {
+                        AutoRouter.of(context).push(
+                          CartRoute(
                             cartItemList: state.cartItems,
                             currentOrderList: state.orderLists,
-                          );
-                        } else {
-                          return const CartPage(
-                            cartItemList: [],
-                            currentOrderList: [],
-                          );
-                        }
-                      },
-                    ),
-                  );
-                },
+                          ),
+                        );
+                      } else {
+                        AutoRouter.of(context).push(
+                          CartRoute(
+                            cartItemList: const [],
+                            currentOrderList: const [],
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
               );
             },
           ),
         ],
-      ),
-      drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                BlocProvider.of<ShoppingBloc>(context)
-                    .add(OrderListFetchEvent());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const OrderPage();
-                    },
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text("My Orders"),
-            ),
-          ],
-        ),
       ),
       body: Container(
         padding: const EdgeInsets.all(3),

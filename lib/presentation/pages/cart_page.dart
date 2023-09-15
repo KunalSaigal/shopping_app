@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
 import 'package:practice_shopping_app/presentation/widgets/cart_tile.dart';
 
+@RoutePage()
 class CartPage extends StatelessWidget {
   final List<ShoppingItemEntity> cartItemList;
   final List<List<ShoppingItemEntity>> currentOrderList;
@@ -16,7 +19,7 @@ class CartPage extends StatelessWidget {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Your Cart",
+            StringConstants.cartPageHeaderText,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).primaryColor),
@@ -32,24 +35,43 @@ class CartPage extends StatelessWidget {
                 if (state.cartItems.isNotEmpty) {
                   return ListView.builder(
                     itemCount: state.cartItems.length,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: CartTile(cartitem: cartItemList[index]),
+                        child: CartTile(
+                          cartitem: cartItemList[index],
+                          cartList: state.cartItems,
+                          cartPage: true,
+                        ),
                       );
                     },
                   );
                 } else {
-                  return const Text("No Cart Available Yet");
+                  return const Text(StringConstants.emptyCartText);
                 }
               } else {
-                return const Text("No Cart Available");
+                return const Text(StringConstants.emptyCartText);
               }
             },
           ),
         ),
       ),
       persistentFooterButtons: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.04,
+          child: BlocBuilder<ShoppingBloc, ShoppingState>(
+            builder: (context, state) {
+              if (state is ListFetchingSuccessfullState) {
+                return Center(
+                  child: Text("Total: ${state.totalvalue.toStringAsFixed(2)}"),
+                );
+              } else {
+                return const Text(StringConstants.zero);
+              }
+            },
+          ),
+        ),
         SizedBox(
           width: double.maxFinite,
           child: ElevatedButton(
@@ -68,7 +90,7 @@ class CartPage extends StatelessWidget {
               ),
             ),
             child: const Text(
-              "Add",
+              StringConstants.placeOrderText,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),

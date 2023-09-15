@@ -10,7 +10,8 @@ class LocalStorage {
   Future<void> saveOrders(List<ShoppingItemEntity> currCart) async {
     _preferences = await SharedPreferences.getInstance();
     List<List<ShoppingItemEntity>> localOrderList = await loadOrder();
-    localOrderList.add(
+    localOrderList.insert(
+      0,
       currCart.map(
         (itemInstance) {
           return itemInstance.toModel();

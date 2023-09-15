@@ -15,6 +15,7 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     on<ShoppingListFetchEvent>(listfetching);
     on<PlaceOrderEvent>(placeOrder);
     on<AddtoCartEvent>(addToCart);
+    on<RemoveFromCartEvent>(removeFromCart);
     on<IncreaseQuantityEvent>(increaseQuantity);
     on<DecreaseQuantityEvent>(decreaseQuantity);
     on<OrderListFetchEvent>(orderListFetching);
@@ -41,31 +42,37 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     await LocalStorage().saveOrders(currCart);
 
     emit(
-      (state as ListFetchingSuccessfullState).copyWith(
-        orderLists: orderLists,
-        cartItems: [],
-      ),
+      (state as ListFetchingSuccessfullState)
+          .copyWith(orderLists: orderLists, cartItems: [], totalvalue: 0),
     );
   }
 
   FutureOr<void> addToCart(AddtoCartEvent event, Emitter<ShoppingState> emit) {
     ShoppingItemEntity updatedItem = event.currentItem;
-
     List<ShoppingItemEntity> copy = [...event.cartList];
-    if (copy.isEmpty) {
-      copy.add(event.currentItem);
+
+    if (updatedItem.itemQuantity == 0) {
+      copy.remove(
+        copy[copy.indexWhere((element) => element.id == updatedItem.id)],
+      );
     } else {
-      if (containsProduct(copy, updatedItem)) {
-        copy[copy.indexWhere((element) => element.id == updatedItem.id)] =
-            copy[copy.indexWhere((element) => element.id == updatedItem.id)]
-                .copyWith(itemQuantity: updatedItem.itemQuantity);
+      if (copy.isEmpty) {
+        copy.add(event.currentItem);
       } else {
-        copy.add(updatedItem);
+        if (containsProduct(copy, updatedItem)) {
+          copy[copy.indexWhere((element) => element.id == updatedItem.id)] =
+              copy[copy.indexWhere((element) => element.id == updatedItem.id)]
+                  .copyWith(itemQuantity: updatedItem.itemQuantity);
+        } else {
+          copy.add(updatedItem);
+        }
       }
     }
     emit(
       (state as ListFetchingSuccessfullState).copyWith(
         cartItems: copy,
+        totalvalue: ((state as ListFetchingSuccessfullState).totalvalue +
+            updatedItem.price * updatedItem.itemQuantity),
       ),
     );
   }
@@ -81,6 +88,23 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
     }
   }
 
+  FutureOr<void> removeFromCart(
+      RemoveFromCartEvent event, Emitter<ShoppingState> emit) {
+    ShoppingItemEntity updatedItem = event.currentItem;
+    List<ShoppingItemEntity> copy = [
+      ...(state as ListFetchingSuccessfullState).cartItems
+    ];
+    emit(
+      (state as ListFetchingSuccessfullState).copyWith(
+        cartItems: copy,
+        totalvalue: ((state as ListFetchingSuccessfullState).totalvalue -
+            updatedItem.price * updatedItem.itemQuantity),
+      ),
+    );
+    copy.remove(
+        copy[copy.indexWhere((element) => element.id == updatedItem.id)]);
+  }
+
   FutureOr<void> increaseQuantity(
       IncreaseQuantityEvent event, Emitter<ShoppingState> emit) {
     List<ShoppingItemEntity> shoppingListCopy = [...event.shoppingList];
@@ -94,8 +118,9 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
                         .itemQuantity +
                     1);
     emit(
-      (state as ListFetchingSuccessfullState)
-          .copyWith(shoppinglist: shoppingListCopy),
+      (state as ListFetchingSuccessfullState).copyWith(
+        shoppinglist: shoppingListCopy,
+      ),
     );
   }
 
@@ -108,12 +133,14 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
             .indexWhere((element) => event.currentItem.id == element.id)]
         .copyWith(
             itemQuantity: shoppingListCopy[shoppingListCopy.indexWhere(
-                        (element) => event.currentItem.id == element.id)]
+                  (element) => event.currentItem.id == element.id,
+                )]
                     .itemQuantity -
                 1);
     emit(
-      (state as ListFetchingSuccessfullState)
-          .copyWith(shoppinglist: shoppingListCopy),
+      (state as ListFetchingSuccessfullState).copyWith(
+        shoppinglist: shoppingListCopy,
+      ),
     );
   }
 

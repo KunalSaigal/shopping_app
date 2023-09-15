@@ -8,28 +8,32 @@ class ShoppingListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ShoppingBloc, ShoppingState>(builder: (context, state) {
-      if (state is InitialState) {
-        BlocProvider.of<ShoppingBloc>(context).add(ShoppingListFetchEvent());
-      }
-      if (state is ListFetchingSuccessfullState) {
-        final successState = state;
-        return ListView.builder(
-          itemCount: successState.shoppinglist.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(3),
-              child: ProductTile(
-                shoppingListModel: successState.shoppinglist[index],
-                cartList: state.cartItems,
-                shoppingList: state.shoppinglist,
-              ),
-            );
-          },
-        );
-      } else {
-        return const Center(child: CircularProgressIndicator());
-      }
-    });
+    return BlocBuilder<ShoppingBloc, ShoppingState>(
+      builder: (context, state) {
+        if (state is InitialState) {
+          BlocProvider.of<ShoppingBloc>(context).add(ShoppingListFetchEvent());
+        }
+        if (state is ListFetchingSuccessfullState) {
+          final successState = state;
+          return ListView.builder(
+            itemCount: successState.shoppinglist.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(3),
+                child: ProductTile(
+                  shoppingListModel: successState.shoppinglist[index],
+                  cartList: state.cartItems,
+                  shoppingList: state.shoppinglist,
+                ),
+              );
+            },
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
   }
 }

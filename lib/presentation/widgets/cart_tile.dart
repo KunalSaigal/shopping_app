@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
+import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
 
 class CartTile extends StatelessWidget {
+  final List<ShoppingItemEntity> cartList;
   final ShoppingItemEntity cartitem;
+  final bool cartPage;
 
-  const CartTile({
-    super.key,
-    required this.cartitem,
-  });
+  const CartTile(
+      {super.key,
+      required this.cartitem,
+      required this.cartList,
+      this.cartPage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +51,28 @@ class CartTile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    'X ${cartitem.itemQuantity.toString()}',
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'X ${cartitem.itemQuantity.toString()}',
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                      ),
+                      Visibility(
+                        visible: (cartPage == true),
+                        child: TextButton(
+                          onPressed: () {
+                            BlocProvider.of<ShoppingBloc>(context).add(
+                                RemoveFromCartEvent(
+                                    currentItem: cartitem, cartList: cartList));
+                          },
+                          child: const Text(StringConstants.removeButtontext),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
