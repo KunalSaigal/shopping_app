@@ -6,8 +6,8 @@ import 'package:practice_shopping_app/core/routes/routes.dart';
 import '../bloc/shopping_bloc.dart';
 
 @RoutePage()
-class NavBar extends StatelessWidget {
-  const NavBar({super.key});
+class NavWidget extends StatelessWidget {
+  const NavWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

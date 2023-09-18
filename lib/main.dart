@@ -9,6 +9,7 @@ import 'presentation/bloc/shopping_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
 
   runApp(

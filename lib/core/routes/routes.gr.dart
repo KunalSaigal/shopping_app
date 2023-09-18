@@ -9,12 +9,18 @@
 
 part of 'routes.dart';
 
-abstract class $AppRouter extends RootStackRouter {
+abstract class _$AppRouter extends RootStackRouter {
   // ignore: unused_element
-  $AppRouter({super.navigatorKey});
+  _$AppRouter({super.navigatorKey});
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthPage(),
+      );
+    },
     CartRoute.name: (routeData) {
       final args = routeData.argsAs<CartRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -32,10 +38,10 @@ abstract class $AppRouter extends RootStackRouter {
         child: const HomePage(),
       );
     },
-    NavBarRoute.name: (routeData) {
+    NavWidgetRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const NavBar(),
+        child: const NavWidget(),
       );
     },
     OrderRoute.name: (routeData) {
@@ -45,6 +51,20 @@ abstract class $AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AuthPage]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -104,15 +124,15 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [NavBar]
-class NavBarRoute extends PageRouteInfo<void> {
-  const NavBarRoute({List<PageRouteInfo>? children})
+/// [NavWidget]
+class NavWidgetRoute extends PageRouteInfo<void> {
+  const NavWidgetRoute({List<PageRouteInfo>? children})
       : super(
-          NavBarRoute.name,
+          NavWidgetRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'NavBar';
+  static const String name = 'NavWidget';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
