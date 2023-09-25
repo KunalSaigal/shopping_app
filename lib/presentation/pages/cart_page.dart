@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
-import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
+import 'package:practice_shopping_app/presentation/state_management/bloc/shopping_bloc.dart';
 import 'package:practice_shopping_app/presentation/widgets/cart_tile.dart';
 
 @RoutePage()
@@ -21,8 +21,9 @@ class CartPage extends StatelessWidget {
           child: Text(
             StringConstants.cartPageHeaderText,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
       ),

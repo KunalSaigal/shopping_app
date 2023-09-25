@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
-import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
+
+import '../state_management/bloc/shopping_bloc.dart';
 
 class CartTile extends StatelessWidget {
   final List<ShoppingItemEntity> cartList;
@@ -66,8 +67,11 @@ class CartTile extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             BlocProvider.of<ShoppingBloc>(context).add(
-                                RemoveFromCartEvent(
-                                    currentItem: cartitem, cartList: cartList));
+                              RemoveFromCartEvent(
+                                currentItem: cartitem,
+                                cartList: cartList,
+                              ),
+                            );
                           },
                           child: const Text(StringConstants.removeButtontext),
                         ),

@@ -16,9 +16,17 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AuthRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<AuthRouteArgs>(orElse: () => const AuthRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AuthPage(),
+        child: AuthPage(key: args.key),
+      );
+    },
+    BottomNavRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BottomNavPage(),
       );
     },
     CartRoute.name: (routeData) {
@@ -38,12 +46,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomePage(),
       );
     },
-    NavWidgetRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const NavWidget(),
-      );
-    },
     OrderRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -55,14 +57,42 @@ abstract class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [AuthPage]
-class AuthRoute extends PageRouteInfo<void> {
-  const AuthRoute({List<PageRouteInfo>? children})
-      : super(
+class AuthRoute extends PageRouteInfo<AuthRouteArgs> {
+  AuthRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           AuthRoute.name,
+          args: AuthRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'AuthRoute';
+
+  static const PageInfo<AuthRouteArgs> page = PageInfo<AuthRouteArgs>(name);
+}
+
+class AuthRouteArgs {
+  const AuthRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'AuthRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [BottomNavPage]
+class BottomNavRoute extends PageRouteInfo<void> {
+  const BottomNavRoute({List<PageRouteInfo>? children})
+      : super(
+          BottomNavRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BottomNavRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -119,20 +149,6 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [NavWidget]
-class NavWidgetRoute extends PageRouteInfo<void> {
-  const NavWidgetRoute({List<PageRouteInfo>? children})
-      : super(
-          NavWidgetRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'NavWidget';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

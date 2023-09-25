@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/core/routes/routes.dart';
 import 'package:practice_shopping_app/presentation/widgets/shopping_list.dart';
-import '../bloc/shopping_bloc.dart';
+import 'package:practice_shopping_app/presentation/state_management/bloc/shopping_bloc.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {

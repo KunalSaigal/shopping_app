@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/constants/color_contants.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
-import 'package:practice_shopping_app/presentation/bloc/shopping_bloc.dart';
+
+import '../state_management/bloc/shopping_bloc.dart';
 
 class ProductTile extends StatelessWidget {
   final List<ShoppingItemEntity> shoppingList;
@@ -126,9 +127,10 @@ class ProductTile extends StatelessWidget {
                               onPressed: () {
                                 BlocProvider.of<ShoppingBloc>(context).add(
                                   DecreaseQuantityEvent(
-                                      currentItem: shoppingListModel,
-                                      shoppingList: shoppingList,
-                                      cartList: cartList),
+                                    currentItem: shoppingListModel,
+                                    shoppingList: shoppingList,
+                                    cartList: cartList,
+                                  ),
                                 );
                               },
                               icon: const Icon(Icons.remove_circle_outline),
@@ -140,9 +142,10 @@ class ProductTile extends StatelessWidget {
                               onPressed: () {
                                 BlocProvider.of<ShoppingBloc>(context).add(
                                   IncreaseQuantityEvent(
-                                      currentItem: shoppingListModel,
-                                      shoppingList: shoppingList,
-                                      cartList: cartList),
+                                    currentItem: shoppingListModel,
+                                    shoppingList: shoppingList,
+                                    cartList: cartList,
+                                  ),
                                 );
                               },
                               icon: const Icon(Icons.add_circle_outline),

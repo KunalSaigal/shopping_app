@@ -35,7 +35,12 @@ class ListFetchingSuccessfullState extends ShoppingState {
   }
 
   @override
-  List<Object?> get props => [shoppinglist, cartItems, orderLists, totalvalue];
+  List<Object?> get props => [
+        shoppinglist,
+        cartItems,
+        orderLists,
+        totalvalue,
+      ];
 }
 
 class CartState extends ShoppingState {

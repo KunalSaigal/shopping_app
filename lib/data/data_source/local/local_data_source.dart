@@ -1,9 +1,11 @@
 import 'dart:convert';
-import 'package:practice_shopping_app/data/data_model/data_model.dart';
-import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalStorage {
+import '../../../domain/entities/shopping_item.dart';
+import '../../data_model/data_model.dart';
+
+class LocalDataSource {
   late SharedPreferences _preferences;
   late List<ShoppingItemEntity> cartItemInstance;
 

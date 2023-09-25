@@ -54,6 +54,14 @@ class ShoppingItemEntity extends Equatable {
 
   @override
   List<Object?> get props {
-    return [id, title, description, price, category, image, itemQuantity];
+    return [
+      id,
+      title,
+      description,
+      price,
+      category,
+      image,
+      itemQuantity,
+    ];
   }
 }

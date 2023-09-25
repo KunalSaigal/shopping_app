@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/shopping_bloc.dart';
+import '../state_management/bloc/shopping_bloc.dart';
 import 'product_tile.dart';
 
 class ShoppingListItems extends StatelessWidget {

@@ -21,23 +21,25 @@ class ShoppingListModel extends ShoppingItemEntity {
       required this.image,
       this.itemQuantity = 0})
       : super(
-            id: id,
-            title: title,
-            description: description,
-            price: price,
-            category: category,
-            image: image,
-            itemQuantity: itemQuantity);
+          id: id,
+          title: title,
+          description: description,
+          price: price,
+          category: category,
+          image: image,
+          itemQuantity: itemQuantity,
+        );
 
   factory ShoppingListModel.getData(Map<dynamic, dynamic> json) {
     return ShoppingListModel(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-        price: json['price'].toDouble(),
-        category: json['category'],
-        image: json['image'],
-        itemQuantity: json['itemQuantity'] ?? 0);
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      price: json['price'].toDouble(),
+      category: json['category'],
+      image: json['image'],
+      itemQuantity: json['itemQuantity'] ?? 0,
+    );
   }
 
   Map<String, dynamic> toJSON() {

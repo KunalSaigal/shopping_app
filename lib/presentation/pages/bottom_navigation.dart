@@ -2,12 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/routes/routes.dart';
-
-import '../bloc/shopping_bloc.dart';
+import '../state_management/bloc/shopping_bloc.dart';
 
 @RoutePage()
-class NavWidget extends StatelessWidget {
-  const NavWidget({super.key});
+class BottomNavPage extends StatelessWidget {
+  const BottomNavPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,10 @@ class NavWidget extends StatelessWidget {
                 ? CartRoute(
                     cartItemList: state.cartItems,
                     currentOrderList: state.orderLists)
-                : CartRoute(cartItemList: const [], currentOrderList: const [])
+                : CartRoute(
+                    cartItemList: const [],
+                    currentOrderList: const [],
+                  )
           ],
           bottomNavigationBuilder: (_, tabsRouter) {
             return BottomNavigationBar(
@@ -35,11 +37,22 @@ class NavWidget extends StatelessWidget {
               items: const [
                 BottomNavigationBarItem(
                   label: 'Orders',
-                  icon: Icon(Icons.shopping_bag_outlined),
+                  icon: Icon(
+                    Icons.shopping_bag_outlined,
+                  ),
                 ),
-                BottomNavigationBarItem(label: 'Home', icon: Icon(Icons.home)),
                 BottomNavigationBarItem(
-                    label: 'Cart', icon: Icon(Icons.shopping_cart_checkout)),
+                  label: 'Home',
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Cart',
+                  icon: Icon(
+                    Icons.shopping_cart_checkout,
+                  ),
+                ),
               ],
             );
           },

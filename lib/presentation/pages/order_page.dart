@@ -5,7 +5,7 @@ import 'package:practice_shopping_app/domain/entities/shopping_item.dart';
 import 'package:practice_shopping_app/presentation/widgets/order_tile.dart';
 
 import '../../core/constants/string_constants.dart';
-import '../bloc/shopping_bloc.dart';
+import '../state_management/bloc/shopping_bloc.dart';
 
 @RoutePage()
 class OrderPage extends StatelessWidget {
@@ -22,8 +22,9 @@ class OrderPage extends StatelessWidget {
           child: Text(
             StringConstants.orderpageHeader,
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
           ),
         ),
       ),
