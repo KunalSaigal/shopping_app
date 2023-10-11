@@ -30,14 +30,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CartRoute.name: (routeData) {
-      final args = routeData.argsAs<CartRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: CartPage(
-          key: args.key,
-          cartItemList: args.cartItemList,
-          currentOrderList: args.currentOrderList,
-        ),
+        child: const CartPage(),
       );
     },
     HomeRoute.name: (routeData) {
@@ -99,44 +94,16 @@ class BottomNavRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [CartPage]
-class CartRoute extends PageRouteInfo<CartRouteArgs> {
-  CartRoute({
-    Key? key,
-    required List<ShoppingItemEntity> cartItemList,
-    required List<List<ShoppingItemEntity>> currentOrderList,
-    List<PageRouteInfo>? children,
-  }) : super(
+class CartRoute extends PageRouteInfo<void> {
+  const CartRoute({List<PageRouteInfo>? children})
+      : super(
           CartRoute.name,
-          args: CartRouteArgs(
-            key: key,
-            cartItemList: cartItemList,
-            currentOrderList: currentOrderList,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'CartRoute';
 
-  static const PageInfo<CartRouteArgs> page = PageInfo<CartRouteArgs>(name);
-}
-
-class CartRouteArgs {
-  const CartRouteArgs({
-    this.key,
-    required this.cartItemList,
-    required this.currentOrderList,
-  });
-
-  final Key? key;
-
-  final List<ShoppingItemEntity> cartItemList;
-
-  final List<List<ShoppingItemEntity>> currentOrderList;
-
-  @override
-  String toString() {
-    return 'CartRouteArgs{key: $key, cartItemList: $cartItemList, currentOrderList: $currentOrderList}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

@@ -5,8 +5,10 @@ import 'package:practice_shopping_app/core/constants/color_contants.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/core/di/injector.dart';
 import 'package:practice_shopping_app/core/routes/routes.dart';
-import 'presentation/state_management/bloc/shopping_bloc.dart';
-import 'presentation/state_management/cubit/auth_cubit.dart';
+import 'package:practice_shopping_app/features/fetch_order/presentation/bloc/order_bloc.dart';
+import 'package:practice_shopping_app/features/show_cart/presentaion/bloc/cart_bloc.dart';
+import 'features/auth/presentation/cubit/auth_cubit.dart';
+import 'features/fetch_shopping_list/presentation/bloc/shopping_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AuthCubit(),
+        ),
+        BlocProvider<CartBloc>(
+          create: (context) => Injector.resolve<CartBloc>(),
+        ),
+        BlocProvider<OrderBloc>(
+          create: (context) => Injector.resolve<OrderBloc>(),
         )
       ],
       child: MaterialApp.router(
