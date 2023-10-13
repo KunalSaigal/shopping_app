@@ -12,7 +12,9 @@ final class OrderFetchingState extends OrderState {}
 final class OrderFetchingSuccessState extends OrderState {
   final List<List<ShoppingItemEntity>> orderLists;
 
-  const OrderFetchingSuccessState({required this.orderLists});
+  const OrderFetchingSuccessState({
+    required this.orderLists,
+  });
 
   OrderFetchingSuccessState copyWith({
     List<List<ShoppingItemEntity>>? orderLists,

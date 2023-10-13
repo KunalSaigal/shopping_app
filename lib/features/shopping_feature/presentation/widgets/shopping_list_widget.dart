@@ -27,6 +27,22 @@ class ShoppingListItems extends StatelessWidget {
               );
             },
           );
+        } else if (state is ListFetchingFailureState) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(state.errorMessage, textAlign: TextAlign.center),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "An unexpected Error has Occured Please Check your Internet Connection",
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
         } else {
           return const Center(
             child: CircularProgressIndicator(),

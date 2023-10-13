@@ -21,7 +21,7 @@ class _$Injector extends Injector {
           RemoteDataUseCase(remoteDataRepository: c<RemoteDataRepository>()))
       ..registerSingleton((c) => RemoteDataSource())
       ..registerSingleton((c) => LocalDataSource())
-      ..registerSingleton(
+      ..registerFactory(
           (c) => ShoppingBloc(remoteDataUseCase: c<RemoteDataUseCase>()))
       ..registerFactory(
           (c) => OrderBloc(localDataUseCase: c<LocalDataUseCase>()))

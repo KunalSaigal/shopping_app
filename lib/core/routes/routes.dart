@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:practice_shopping_app/features/bottom_nav/presentation/pages/bottom_navigation_page.dart';
 import '../../features/auth/presentation/pages/auth_page.dart';
-import '../../features/fetch_shopping_list/presentation/pages/home_page.dart';
-import '../../features/fetch_order/presentation/page/order_page.dart';
-import '../../features/show_cart/presentaion/pages/cart_page.dart';
+import '../../features/cart_feature/presentaion/pages/cart_page.dart';
+import '../../features/order_feature/presentation/page/order_page.dart';
+import '../../features/shopping_feature/presentation/pages/home_page.dart';
 
 part 'routes.gr.dart';
 

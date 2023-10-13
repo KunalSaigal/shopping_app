@@ -5,14 +5,13 @@ import 'package:practice_shopping_app/core/constants/color_contants.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/core/di/injector.dart';
 import 'package:practice_shopping_app/core/routes/routes.dart';
-import 'package:practice_shopping_app/features/fetch_order/presentation/bloc/order_bloc.dart';
-import 'package:practice_shopping_app/features/show_cart/presentaion/bloc/cart_bloc.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart';
-import 'features/fetch_shopping_list/presentation/bloc/shopping_bloc.dart';
+import 'features/cart_feature/presentaion/bloc/cart_bloc.dart';
+import 'features/order_feature/presentation/bloc/order_bloc.dart';
+import 'features/shopping_feature/presentation/bloc/shopping_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   Injector.setup();
   runApp(

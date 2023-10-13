@@ -4,8 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/features/common/entities/shopping_item.dart';
-import 'package:practice_shopping_app/features/fetch_order/domain/use_case/local_data_usecase.dart';
-import 'package:practice_shopping_app/features/fetch_shopping_list/presentation/bloc/shopping_bloc.dart';
+
+import '../../../order_feature/domain/use_case/local_data_usecase.dart';
+import '../../../shopping_feature/presentation/bloc/shopping_bloc.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -21,7 +22,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       (state) {
         if (state is ListFetchingSuccessfullState) {
           updatedCart = state.cartItems;
-          add(CartFetchEvent());
+          add(
+            CartFetchEvent(),
+          );
           // print(updatedCart);
         }
       },
@@ -70,6 +73,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   FutureOr<void> cartfetch(CartFetchEvent event, Emitter<CartState> emit) {
-    emit(CartFetchingSucessState(cartList: updatedCart));
+    emit(
+      CartFetchingSucessState(cartList: updatedCart),
+    );
   }
 }

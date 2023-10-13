@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/constants/string_constants.dart';
 import 'package:practice_shopping_app/features/common/entities/shopping_item.dart';
-import 'package:practice_shopping_app/features/show_cart/presentaion/bloc/cart_bloc.dart';
+
+import '../../cart_feature/presentaion/bloc/cart_bloc.dart';
 
 class CartTileWidget extends StatelessWidget {
   final List<ShoppingItemEntity> cartList;

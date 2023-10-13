@@ -18,9 +18,6 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-
-      // User user = FirebaseAuth.instance.currentUser!;
-      // log(user.toString());
       emit(
         AuthCompletionState(userCred: userCredential),
       );

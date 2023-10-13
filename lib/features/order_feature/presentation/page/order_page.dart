@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/features/common/entities/shopping_item.dart';
-import 'package:practice_shopping_app/features/fetch_order/presentation/widgets/order_tile_widget.dart';
 
 import '../../../../core/constants/string_constants.dart';
 import '../bloc/order_bloc.dart';
+import '../widgets/order_tile_widget.dart';
 
 @RoutePage()
 class OrderPage extends StatelessWidget {

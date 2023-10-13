@@ -1,13 +1,11 @@
 part of 'shopping_bloc.dart';
 
 @immutable
-sealed class ShoppingState
-//  extends Equatable
-{}
+sealed class ShoppingState extends Equatable {}
 
 class InitialState extends ShoppingState {
-  // @override
-  // List<Object?> get props => [];
+  @override
+  List<Object?> get props => [];
 }
 
 class ListFetchingSuccessfullState extends ShoppingState {
@@ -30,9 +28,17 @@ class ListFetchingSuccessfullState extends ShoppingState {
     );
   }
 
-  // @override
-  // List<Object?> get props => [
-  //       shoppinglist,
-  //       cartItems,
-  //     ];
+  @override
+  List<Object?> get props => [
+        shoppinglist,
+        cartItems,
+      ];
+}
+
+final class ListFetchingFailureState extends ShoppingState {
+  final String errorMessage;
+
+  ListFetchingFailureState({required this.errorMessage});
+  @override
+  List<Object?> get props => [errorMessage];
 }

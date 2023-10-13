@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-// import 'package:equatable/equatable.dart';
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:practice_shopping_app/core/failure/failure.dart';
 import 'package:practice_shopping_app/features/common/entities/shopping_item.dart';
 import '../../domain/use_cases/remote_data_usecase.dart';
 
@@ -20,14 +22,20 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
 
   FutureOr<void> listfetching(
       ShoppingListFetchEvent event, Emitter<ShoppingState> emit) async {
-    List<ShoppingItemEntity> shoppinglist =
+    Either<List<ShoppingItemEntity>, Failure> response =
         await remoteDataUseCase.getDatafromDio();
-    emit(
-      ListFetchingSuccessfullState(
-        shoppinglist: shoppinglist,
-        cartItems: const [],
-      ),
-    );
+    response.fold((left) {
+      emit(
+        ListFetchingSuccessfullState(
+          shoppinglist: left,
+          cartItems: const [],
+        ),
+      );
+    }, (right) {
+      emit(
+        ListFetchingFailureState(errorMessage: right.errorMessage),
+      );
+    });
   }
 
   FutureOr<void> addToCart(AddtoCartEvent event, Emitter<ShoppingState> emit) {

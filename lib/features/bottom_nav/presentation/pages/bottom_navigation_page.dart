@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_shopping_app/core/routes/routes.dart';
-import '../../../fetch_shopping_list/presentation/bloc/shopping_bloc.dart';
+import '../../../shopping_feature/presentation/bloc/shopping_bloc.dart';
 
 @RoutePage()
 class BottomNavPage extends StatelessWidget {

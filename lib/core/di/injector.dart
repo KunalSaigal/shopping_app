@@ -1,16 +1,16 @@
 import 'package:kiwi/kiwi.dart';
-import 'package:practice_shopping_app/features/fetch_order/presentation/bloc/order_bloc.dart';
-import 'package:practice_shopping_app/features/fetch_shopping_list/data/data_source/remote/remote_data_source.dart';
-import 'package:practice_shopping_app/features/fetch_shopping_list/data/repository/remote_item_fetching_repo_impl.dart';
-import 'package:practice_shopping_app/features/fetch_shopping_list/domain/repository/remote_item_fetching_repo.dart';
-import 'package:practice_shopping_app/features/fetch_order/domain/use_case/local_data_usecase.dart';
-import 'package:practice_shopping_app/features/show_cart/presentaion/bloc/cart_bloc.dart';
 
-import '../../features/fetch_order/data/data_source/local/local_data_source.dart';
-import '../../features/fetch_order/data/repository/local_storage_impl.dart';
-import '../../features/fetch_order/domain/repository/local_storage__repo.dart';
-import '../../features/fetch_shopping_list/domain/use_cases/remote_data_usecase.dart';
-import '../../features/fetch_shopping_list/presentation/bloc/shopping_bloc.dart';
+import '../../features/cart_feature/presentaion/bloc/cart_bloc.dart';
+import '../../features/order_feature/data/data_source/local/local_data_source.dart';
+import '../../features/order_feature/data/repository/local_storage_impl.dart';
+import '../../features/order_feature/domain/repository/local_storage__repo.dart';
+import '../../features/order_feature/domain/use_case/local_data_usecase.dart';
+import '../../features/order_feature/presentation/bloc/order_bloc.dart';
+import '../../features/shopping_feature/data/data_source/remote/remote_data_source.dart';
+import '../../features/shopping_feature/data/repository/remote_item_fetching_repo_impl.dart';
+import '../../features/shopping_feature/domain/repository/remote_item_fetching_repo.dart';
+import '../../features/shopping_feature/domain/use_cases/remote_data_usecase.dart';
+import '../../features/shopping_feature/presentation/bloc/shopping_bloc.dart';
 
 part "injector.g.dart";
 
