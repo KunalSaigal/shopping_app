@@ -13,10 +13,10 @@ class LocalDataRepositoryImpl implements LocalDataRepository {
     return localStorageDataSource.saveOrders(currCart);
   }
 
-  @override
-  List<String> convertToStringList(List<ShoppingItemEntity> current) {
-    return localStorageDataSource.convertToStringList(current);
-  }
+  // @override
+  // List<String> convertToStringList(List<ShoppingItemEntity> current) {
+  //   return localStorageDataSource.convertToStringList(current);
+  // }
 
   @override
   Future<List<List<ShoppingItemEntity>>> loadOrder() {

@@ -19,6 +19,7 @@ class RemoteDataSource {
         },
       ),
     );
+
     try {
       Response response = await dio.get("https://fakestoreapi.com/products");
 

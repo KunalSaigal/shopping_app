@@ -33,7 +33,9 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
       );
     }, (right) {
       emit(
-        ListFetchingFailureState(errorMessage: right.errorMessage),
+        ListFetchingFailureState(
+          errorMessage: right.errorMessage,
+        ),
       );
     });
   }
@@ -44,16 +46,23 @@ class ShoppingBloc extends Bloc<ShoppingEvent, ShoppingState> {
 
     if (updatedItem.itemQuantity == 0) {
       copy.remove(
-        copy[copy.indexWhere((element) => element.id == updatedItem.id)],
+        copy[copy.indexWhere(
+          (element) => element.id == updatedItem.id,
+        )],
       );
     } else {
       if (copy.isEmpty) {
         copy.add(event.currentItem);
       } else {
         if (containsProduct(copy, updatedItem)) {
-          copy[copy.indexWhere((element) => element.id == updatedItem.id)] =
-              copy[copy.indexWhere((element) => element.id == updatedItem.id)]
-                  .copyWith(itemQuantity: updatedItem.itemQuantity);
+          copy[copy.indexWhere(
+            (element) => element.id == updatedItem.id,
+          )] = copy[copy.indexWhere(
+            (element) => element.id == updatedItem.id,
+          )]
+              .copyWith(
+            itemQuantity: updatedItem.itemQuantity,
+          );
         } else {
           copy.add(updatedItem);
         }

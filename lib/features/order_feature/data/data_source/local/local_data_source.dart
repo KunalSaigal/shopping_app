@@ -35,16 +35,6 @@ class LocalDataSource {
     await _preferences.setString("savedCart", saveOrder);
   }
 
-  List<String> convertToStringList(List<ShoppingItemEntity> current) {
-    return (current
-        .map(
-          (item) => json.encode(
-            item.toModel().toJSON(),
-          ),
-        )
-        .toList());
-  }
-
   Future<List<List<ShoppingItemEntity>>> loadOrder() async {
     _preferences = await SharedPreferences.getInstance();
     final savedString = _preferences.getString("savedCart") ?? "";

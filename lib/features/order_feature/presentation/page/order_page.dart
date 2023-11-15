@@ -42,14 +42,18 @@ class OrderPage extends StatelessWidget {
                 // Access the inner list
                 List<ShoppingItemEntity> innerList = state.orderLists[index];
 
-                return Column(
-                  children: [
-                    OrderTileWidget(
-                      cartInstance: innerList,
-                      upperIndex: index,
-                    ),
-                  ],
-                );
+                if (innerList.isNotEmpty) {
+                  return Column(
+                    children: [
+                      OrderTileWidget(
+                        cartInstance: innerList,
+                        upperIndex: index,
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Text(StringConstants.emptyOrderText);
+                }
               },
             );
           } else {
